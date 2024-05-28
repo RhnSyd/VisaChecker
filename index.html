@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Checker</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label, input {
+            margin: 5px;
+        }
+        button {
+            margin-top: 10px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Visa Checker</h1>
+    <form id="visaForm">
+        <label for="nationality">Nationality:</label>
+        <input type="text" id="nationality" name="nationality"><br><br>
+
+        <label for="visa_countries">Countries with Visas:</label>
+        <input type="text" id="visa_countries" name="visa_countries"><br><br>
+
+        <label for="departure_airport">Departure Airport:</label>
+        <input type="text" id="departure_airport" name="departure_airport"><br><br>
+
+        <label for="connecting_airports">Connecting Airports Separated by comma:</label>
+        <input type="text" id="connecting_airports" name="connecting_airports"><br><br>
+
+        <label for="arrival_airport">Arrival Airport:</label>
+        <input type="text" id="arrival_airport" name="arrival_airport"><br><br>
+
+        <button type="button" onclick="checkVisa()">Check Visa</button>
+    </form>
+    <h2 id="result"></h2>
+
+    <script>
+        function checkVisa() {
+            const form = document.getElementById('visaForm');
+            const formData = new FormData(form);
+
+            fetch('/check_visa', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = data.result;
+            });
+        }
+    </script>
+</body>
+</html>
